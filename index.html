@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dawa2U | Online Wholesale & Retail Pharmaceutical Platform</title>
+    <meta name="description" content="Dawa2U - Digital Supply Chain for Quality Prescription Medicines, OTC Health Products, and Bulk Wholesale Supplies.">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        },
+                        navy: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <!-- Top Announcement Bar -->
+    <div id="top-bar" class="bg-brand-700 text-white text-xs py-2 px-4 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span id="announcement-text" class="font-medium">Express delivery active across major health centers & retail outlets.</span>
+            </div>
+            <div class="hidden sm:flex items-center space-x-6">
+                <span><i data-lucide="shield-check" class="inline w-3.5 h-3.5 mr-1"></i> PPB Licensed & Verified</span>
+                <span><i data-lucide="truck" class="inline w-3.5 h-3.5 mr-1"></i> Cold-Chain Certified Logistics</span>
+                <a href="tel:+254700000000" class="hover:underline font-semibold"><i data-lucide="phone" class="inline w-3.5 h-3.5 mr-1"></i> Support Desk</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <a href="#" class="flex items-center space-x-2 group">
+                        <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center text-white font-black text-xl shadow-md group-hover:bg-brand-700 transition">
+                            D
+                        </div>
+                        <div>
+                            <span class="text-2xl font-black tracking-tight text-navy-900">Dawa<span class="text-brand-600">2U</span></span>
+                            <span class="block text-[10px] font-semibold text-slate-400 uppercase tracking-widest -mt-1">Pharma Direct</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- B2C / B2B Mode Switcher -->
+                <div class="hidden md:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
+                    <button id="btn-mode-b2c" onclick="setAccountMode('b2c')" class="px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-white text-navy-900 shadow-sm">
+                        <i data-lucide="shopping-bag" class="w-3.5 h-3.5 text-brand-600"></i>
+                        <span>Retail (B2C)</span>
+                    </button>
+                    <button id="btn-mode-b2b" onclick="setAccountMode('b2b')" class="px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-navy-900 transition flex items-center space-x-1.5">
+                        <i data-lucide="building-2" class="w-3.5 h-3.5"></i>
+                        <span>Wholesale (B2B)</span>
+                        <span class="ml-1 px-1.5 py-0.5 text-[9px] bg-brand-100 text-brand-800 rounded font-extrabold uppercase">Bulk</span>
+                    </button>
+                </div>
+
+                <!-- Search Input -->
+                <div class="hidden lg:block flex-1 max-w-md mx-8 relative">
+                    <div class="relative">
+                        <input id="search-input" onkeyup="handleSearch()" type="text" placeholder="Search medicines, active ingredients, or equipment..." class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
+                    </div>
+                </div>
+
+                <!-- Actions Right -->
+                <div class="flex items-center space-x-3">
+                    <button onclick="openModal('rx-modal')" class="hidden sm:flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-brand-50 text-brand-700 hover:bg-brand-100 border border-brand-200 transition">
+                        <i data-lucide="file-up" class="w-4 h-4"></i>
+                        <span>Upload Rx</span>
+                    </button>
+
+                    <button id="verify-b2b-btn" onclick="openModal('b2b-modal')" class="hidden">
+                        <!-- Dynamically filled if B2B mode -->
+                    </button>
+
+                    <!-- Cart Toggle -->
+                    <button onclick="toggleCartDrawer()" class="relative p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
+                        <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                        <span id="cart-badge" class="absolute -top-1 -right-1 bg-brand-600 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl bg-slate-100 text-slate-700">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Switcher Bar -->
+        <div class="md:hidden px-4 pb-3 flex items-center justify-between border-t border-slate-100 pt-2 bg-slate-50">
+            <span class="text-xs font-bold text-slate-500">Order Mode:</span>
+            <div class="flex bg-slate-200 p-0.5 rounded-lg">
+                <button id="mobile-mode-b2c" onclick="setAccountMode('b2c')" class="px-3 py-1 text-xs font-bold rounded bg-white text-navy-900 shadow-sm">Retail</button>
+                <button id="mobile-mode-b2b" onclick="setAccountMode('b2b')" class="px-3 py-1 text-xs font-bold rounded text-slate-600">Wholesale</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-b from-slate-900 via-navy-900 to-slate-900 text-white py-16 md:py-24 overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#14b8a6_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center space-x-2 bg-brand-500/10 border border-brand-500/20 px-3.5 py-1.5 rounded-full text-brand-300 text-xs font-semibold">
+                        <i data-lucide="badge-check" class="w-4 h-4 text-brand-400"></i>
+                        <span>ISO 9001:2015 & PPB Certified Pharmaceutical Logistics</span>
+                    </div>
+
+                    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
+                        Direct Access to <br class="hidden sm:inline"/>
+                        <span id="hero-heading-highlight" class="text-transparent bg-clip-text bg-gradient-to-r from-brand-300 to-teal-100">Licensed Pharmaceuticals</span>
+                    </h1>
+
+                    <p id="hero-subtext" class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                        Supplying certified essential medicines, wellness products, and hospital equipment directly to retail patients and accredited health institutions.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-3 pt-2">
+                        <a href="#products-section" class="px-6 py-3.5 bg-brand-600 hover:bg-brand-500 text-white text-sm font-bold rounded-xl shadow-lg shadow-brand-900/50 transition text-center flex items-center justify-center space-x-2">
+                            <span>Browse Product Catalog</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                        <button onclick="openModal('rx-modal')" class="px-6 py-3.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-bold rounded-xl transition text-center flex items-center justify-center space-x-2 backdrop-blur-sm">
+                            <i data-lucide="upload-cloud" class="w-4 h-4"></i>
+                            <span>Upload Prescription</span>
+                        </button>
+                    </div>
+
+                    <!-- Trust indicators -->
+                    <div class="pt-6 grid grid-cols-3 gap-4 border-t border-slate-800 text-left">
+                        <div>
+                            <div class="text-xl font-black text-white">100%</div>
+                            <div class="text-xs text-slate-400">Authentic Sourcing</div>
+                        </div>
+                        <div>
+                            <div class="text-xl font-black text-white">24/7</div>
+                            <div class="text-xs text-slate-400">Cold-Chain Dispatch</div>
+                        </div>
+                        <div>
+                            <div class="text-xl font-black text-white">2-Hour</div>
+                            <div class="text-xs text-slate-400">Express Delivery Option</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- B2B Volume Calculator / Quick Action Card -->
+                <div class="lg:col-span-5">
+                    <div class="bg-white text-slate-800 rounded-2xl p-6 shadow-2xl border border-slate-100 relative">
+                        <div class="flex justify-between items-center border-b border-slate-100 pb-4 mb-4">
+                            <div>
+                                <h3 class="font-bold text-navy-900 text-base">Bulk Volume Savings Estimator</h3>
+                                <p class="text-xs text-slate-500">Instant quotes for pharmacies, clinics & facilities</p>
+                            </div>
+                            <span class="px-2.5 py-1 bg-brand-50 text-brand-700 text-xs font-bold rounded-md">B2B Direct</span>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-xs font-bold text-slate-700 block mb-1">Select Order Tier (Units):</label>
+                                <input type="range" id="volume-range" min="50" max="5000" step="50" value="500" oninput="calculateVolumeDiscount()" class="w-full accent-brand-600 h-2 bg-slate-200 rounded-lg cursor-pointer">
+                                <div class="flex justify-between text-[11px] text-slate-500 font-semibold mt-1">
+                                    <span>50 Units</span>
+                                    <span>2,500 Units</span>
+                                    <span>5,000+ Units</span>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-2">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-slate-600">Selected Volume:</span>
+                                    <span id="calc-units" class="font-bold text-navy-900">500 Units</span>
+                                </div>
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-slate-600">Estimated Tier Discount:</span>
+                                    <span id="calc-discount" class="font-bold text-emerald-600">15% OFF</span>
+                                </div>
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-slate-600">Logistics Guarantee:</span>
+                                    <span class="font-bold text-slate-800">Temperature Controlled</span>
+                                </div>
+                                <div class="pt-2 border-t border-slate-200 flex justify-between items-center">
+                                    <span class="text-xs font-bold text-slate-700">Estimated Unit Price Rate:</span>
+                                    <span id="calc-price" class="text-lg font-black text-brand-700">$4.25 / unit</span>
+                                </div>
+                            </div>
+
+                            <button onclick="openModal('b2b-modal')" class="w-full py-3 bg-navy-900 hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition flex items-center justify-center space-x-2">
+                                <i data-lucide="file-check-2" class="w-4 h-4 text-brand-400"></i>
+                                <span>Apply for Facility Credit Terms</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Area -->
+    <main id="products-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-1 w-full">
+        
+        <!-- Category & Search Bar -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+            <div>
+                <h2 id="catalog-title" class="text-2xl font-black text-navy-900">Retail Medicine Catalog</h2>
+                <p id="catalog-subtitle" class="text-xs text-slate-500 mt-1">Showing individual patient pricing and standard dispatch options.</p>
+            </div>
+
+            <!-- Categories Pill Nav -->
+            <div class="flex items-center space-x-2 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
+                <button onclick="filterCategory('all')" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold bg-navy-900 text-white whitespace-nowrap">All Items</button>
+                <button onclick="filterCategory('OTC & Wellness')" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 whitespace-nowrap">OTC & Wellness</button>
+                <button onclick="filterCategory('Essential Medicines')" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 whitespace-nowrap">Essential Medicines</button>
+                <button onclick="filterCategory('Medical Equipment')" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 whitespace-nowrap">Equipment</button>
+                <button onclick="filterCategory('First Aid')" class="cat-btn px-4 py-2 rounded-xl text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 whitespace-nowrap">First Aid</button>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Dynamic Content Injected via JS -->
+        </div>
+    </main>
+
+    <!-- Shopping Cart Drawer Overlay -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="toggleCartDrawer()"></div>
+        <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col">
+                
+                <div class="p-6 bg-slate-900 text-white flex justify-between items-center">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="shopping-bag" class="w-5 h-5 text-brand-400"></i>
+                        <h3 class="text-base font-bold">Your Order Cart</h3>
+                    </div>
+                    <button onclick="toggleCartDrawer()" class="text-slate-400 hover:text-white">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <div id="cart-mode-banner" class="bg-brand-50 border-b border-brand-100 px-6 py-2 text-xs font-semibold text-brand-800 flex justify-between">
+                    <span>Pricing Tier: <strong id="cart-mode-label">Retail (B2C)</strong></span>
+                    <span id="cart-moq-label">MOQ: Standard</span>
+                </div>
+
+                <!-- Items List -->
+                <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4">
+                    <!-- Cart items rendered here -->
+                </div>
+
+                <!-- Cart Footer -->
+                <div class="p-6 border-t border-slate-200 bg-slate-50 space-y-4">
+                    <div class="space-y-2 text-xs">
+                        <div class="flex justify-between text-slate-600">
+                            <span>Subtotal:</span>
+                            <span id="cart-subtotal" class="font-bold text-slate-900">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-slate-600">
+                            <span>Estimated Tax / VAT:</span>
+                            <span id="cart-tax" class="font-bold text-slate-900">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-sm font-black text-navy-900 pt-2 border-t border-slate-200">
+                            <span>Total Amount:</span>
+                            <span id="cart-total" class="text-brand-700">$0.00</span>
+                        </div>
+                    </div>
+
+                    <button onclick="alert('Order submitted successfully! Dawa2U team will process your dispatch.')" class="w-full py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-sm rounded-xl shadow-lg transition flex items-center justify-center space-x-2">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i>
+                        <span>Proceed to Secure Checkout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Prescription Modal -->
+    <div id="rx-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="min-h-screen px-4 flex items-center justify-center">
+            <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('rx-modal')"></div>
+            <div class="bg-white rounded-2xl max-w-lg w-full p-6 relative z-10 shadow-2xl space-y-4">
+                <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                    <h3 class="font-bold text-navy-900 text-base flex items-center space-x-2">
+                        <i data-lucide="file-up" class="w-5 h-5 text-brand-600"></i>
+                        <span>Upload Prescription (Rx)</span>
+                    </h3>
+                    <button onclick="closeModal('rx-modal')" class="text-slate-400 hover:text-slate-600">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <p class="text-xs text-slate-500">Please upload a clear copy of your doctor's signed prescription. Our licensed pharmacists will verify and prepare your order.</p>
+
+                <div class="border-2 border-dashed border-slate-200 rounded-xl p-6 text-center hover:border-brand-500 transition bg-slate-50">
+                    <i data-lucide="upload-cloud" class="w-10 h-10 text-slate-400 mx-auto mb-2"></i>
+                    <p class="text-xs font-bold text-slate-700">Click to upload or drag & drop</p>
+                    <p class="text-[10px] text-slate-400 mt-1">PNG, JPG, or PDF up to 10MB</p>
+                    <input type="file" class="hidden" id="rx-file-input">
+                </div>
+
+                <div class="space-y-3">
+                    <div>
+                        <label class="text-xs font-bold text-slate-700 block mb-1">Patient Full Name</label>
+                        <input type="text" placeholder="John Doe" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-brand-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-700 block mb-1">Phone Number for Verification</label>
+                        <input type="tel" placeholder="+254 700 000 000" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-brand-500 outline-none">
+                    </div>
+                </div>
+
+                <button onclick="alert('Prescription uploaded! A licensed Dawa2U pharmacist will call you shortly.'); closeModal('rx-modal')" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow transition">
+                    Submit Prescription for Review
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- B2B License Verification Modal -->
+    <div id="b2b-modal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="min-h-screen px-4 flex items-center justify-center">
+            <div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal('b2b-modal')"></div>
+            <div class="bg-white rounded-2xl max-w-lg w-full p-6 relative z-10 shadow-2xl space-y-4">
+                <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                    <h3 class="font-bold text-navy-900 text-base flex items-center space-x-2">
+                        <i data-lucide="building-2" class="w-5 h-5 text-brand-600"></i>
+                        <span>B2B Wholesale License Verification</span>
+                    </h3>
+                    <button onclick="closeModal('b2b-modal')" class="text-slate-400 hover:text-slate-600">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <p class="text-xs text-slate-500">Register your pharmacy, clinic, or hospital facility to unlock wholesale tier pricing and 30-day credit terms.</p>
+
+                <div class="space-y-3">
+                    <div>
+                        <label class="text-xs font-bold text-slate-700 block mb-1">Facility / Institution Name</label>
+                        <input type="text" placeholder="Avenue Chemist Ltd" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-brand-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-700 block mb-1">Pharmacy Board Premises License No.</label>
+                        <input type="text" placeholder="PPB/PREM/2026/XXXX" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-brand-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="text-xs font-bold text-slate-700 block mb-1">Superintendent Pharmacist Name</label>
+                        <input type="text" placeholder="Dr. Jane Smith" class="w-full bg-slate-50 border border-slate-200 rounded-lg p-2 text-xs focus:ring-2 focus:ring-brand-500 outline-none">
+                    </div>
+                </div>
+
+                <button onclick="alert('License application submitted! Our compliance team will review and enable full B2B bulk ordering within 2 hours.'); closeModal('b2b-modal')" class="w-full py-3 bg-navy-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow transition">
+                    Submit Business Verification
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-navy-950 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 text-xs">
+            <div class="space-y-3">
+                <span class="text-xl font-black text-white">Dawa<span class="text-brand-500">2U</span></span>
+                <p class="text-slate-400 leading-relaxed">
+                    Digital pharmaceutical supply chain connecting verified manufacturers directly to retail patients and accredited health institutions.
+                </p>
+            </div>
+            <div>
+                <h4 class="font-bold text-white mb-3 uppercase tracking-wider text-[11px]">Retail (B2C)</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white">Prescription Refills</a></li>
+                    <li><a href="#" class="hover:text-white">Over The Counter (OTC)</a></li>
+                    <li><a href="#" class="hover:text-white">Personal Care & Hygiene</a></li>
+                    <li><a href="#" class="hover:text-white">Mother & Baby Care</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-white mb-3 uppercase tracking-wider text-[11px]">Wholesale (B2B)</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="hover:text-white">Hospital Bulk Supply</a></li>
+                    <li><a href="#" class="hover:text-white">Chemist & Pharmacy Orders</a></li>
+                    <li><a href="#" class="hover:text-white">Cold-Chain Vaccines</a></li>
+                    <li><a href="#" class="hover:text-white">Facility Credit Terms</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-white mb-3 uppercase tracking-wider text-[11px]">Regulatory Compliance</h4>
+                <p class="mb-2">Licensed under Pharmacy & Poisons Board Guidelines.</p>
+                <div class="flex items-center space-x-2 text-emerald-400 font-semibold">
+                    <i data-lucide="shield-check" class="w-4 h-4"></i>
+                    <span>Verified License Direct</span>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 pt-6 border-t border-slate-800 text-center text-slate-500 text-[11px]">
+            &copy; 2026 Dawa2U Healthcare Direct. All rights reserved. Built for Wholesale & Retail Distribution.
+        </div>
+    </footer>
+
+    <!-- Core App Logic -->
+    <script>
+        // State Management
+        let currentMode = 'b2c'; // 'b2c' or 'b2b'
+        let currentCategory = 'all';
+        let searchQuery = '';
+        let cart = [];
+
+        // Sample Product Database with Dual B2C and B2B pricing
+        const products = [
+            {
+                id: 'prod-1',
+                name: 'Amoxicillin Trihydrate 500mg',
+                category: 'Essential Medicines',
+                rxRequired: true,
+                badge: 'Antibiotic',
+                b2c: { price: 8.50, moq: 1, unit: 'Pack of 20 Caps' },
+                b2b: { price: 3.80, moq: 50, unit: 'Box of 50 Packs (Bulk)' }
+            },
+            {
+                id: 'prod-2',
+                name: 'Paracetamol 500mg Caplets',
+                category: 'OTC & Wellness',
+                rxRequired: false,
+                badge: 'Pain Relief',
+                b2c: { price: 2.50, moq: 1, unit: 'Blister of 10' },
+                b2b: { price: 0.90, moq: 100, unit: 'Carton of 100 Packs' }
+            },
+            {
+                id: 'prod-3',
+                name: 'Digital Upper Arm Blood Pressure Monitor',
+                category: 'Medical Equipment',
+                rxRequired: false,
+                badge: 'Diagnostic',
+                b2c: { price: 45.00, moq: 1, unit: 'Single Unit' },
+                b2b: { price: 28.00, moq: 10, unit: 'Clinic Pack of 10' }
+            },
+            {
+                id: 'prod-4',
+                name: 'Surgical Face Masks 3-Ply',
+                category: 'First Aid',
+                rxRequired: false,
+                badge: 'Personal Safety',
+                b2c: { price: 5.00, moq: 1, unit: 'Box of 50' },
+                b2b: { price: 2.10, moq: 50, unit: 'Carton (50 Boxes)' }
+            },
+            {
+                id: 'prod-5',
+                name: 'Insulin Glargine Pen 100IU/ml',
+                category: 'Essential Medicines',
+                rxRequired: true,
+                badge: 'Cold Chain Required',
+                b2c: { price: 22.00, moq: 1, unit: 'Single Pen 3ml' },
+                b2b: { price: 14.50, moq: 20, unit: 'Hospital Bundle of 20' }
+            },
+            {
+                id: 'prod-6',
+                name: 'Sterile Gauze Bandage 10cm x 4m',
+                category: 'First Aid',
+                rxRequired: false,
+                badge: 'Wound Care',
+                b2c: { price: 1.20, moq: 1, unit: 'Pack of 2' },
+                b2b: { price: 0.45, moq: 200, unit: 'Bale of 200 Packs' }
+            }
+        ];
+
+        // Toggle Account Mode
+        function setAccountMode(mode) {
+            currentMode = mode;
+            
+            // Buttons UI Update
+            const b2cBtn = document.getElementById('btn-mode-b2c');
+            const b2bBtn = document.getElementById('btn-mode-b2b');
+            const mobileB2c = document.getElementById('mobile-mode-b2c');
+            const mobileB2b = document.getElementById('mobile-mode-b2b');
+
+            if (mode === 'b2b') {
+                b2bBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-navy-900 text-white shadow-sm";
+                b2cBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-navy-900 transition flex items-center space-x-1.5";
+                mobileB2b.className = "px-3 py-1 text-xs font-bold rounded bg-navy-900 text-white shadow-sm";
+                mobileB2c.className = "px-3 py-1 text-xs font-bold rounded text-slate-600";
+
+                document.getElementById('top-bar').className = "bg-navy-900 text-white text-xs py-2 px-4 transition-colors duration-300";
+                document.getElementById('announcement-text').innerText = "WHOLESALE PORTAL ACTIVE: Bulk Tier Pricing & Facility Credit Terms Enabled.";
+                document.getElementById('catalog-title').innerText = "Wholesale Facility Supply Catalog";
+                document.getElementById('catalog-subtitle').innerText = "Showing discounted minimum order quantity (MOQ) rates for verified clinics and chemists.";
+                document.getElementById('cart-mode-label').innerText = "Wholesale (B2B Bulk)";
+                document.getElementById('cart-moq-label').innerText = "MOQ Rules Applied";
+            } else {
+                b2cBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-white text-navy-900 shadow-sm";
+                b2bBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-navy-900 transition flex items-center space-x-1.5";
+                mobileB2c.className = "px-3 py-1 text-xs font-bold rounded bg-white text-navy-900 shadow-sm";
+                mobileB2b.className = "px-3 py-1 text-xs font-bold rounded text-slate-600";
+
+                document.getElementById('top-bar').className = "bg-brand-700 text-white text-xs py-2 px-4 transition-colors duration-300";
+                document.getElementById('announcement-text').innerText = "Express delivery active across major health centers & retail outlets.";
+                document.getElementById('catalog-title').innerText = "Retail Medicine Catalog";
+                document.getElementById('catalog-subtitle').innerText = "Showing individual patient pricing and standard dispatch options.";
+                document.getElementById('cart-mode-label').innerText = "Retail (B2C)";
+                document.getElementById('cart-moq-label').innerText = "MOQ: Standard";
+            }
+
+            renderProducts();
+            renderCart();
+        }
+
+        // Render Products Grid
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+
+            const filtered = products.filter(p => {
+                const matchesCat = currentCategory === 'all' || p.category === currentCategory;
+                const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.category.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCat && matchesSearch;
+            });
+
+            if(filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400 font-medium">No pharmaceutical items matched your criteria.</div>`;
+                return;
+            }
+
+            filtered.forEach(product => {
+                const details = currentMode === 'b2b' ? product.b2b : product.b2c;
+                
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl p-5 border border-slate-200 hover:border-brand-500 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between";
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="px-2.5 py-1 bg-slate-100 text-slate-700 text-[10px] font-bold rounded-md uppercase tracking-wider">${product.badge}</span>${product.rxRequired ? `<span class="px-2 py-0.5 bg-red-50 text-red-600 text-[10px] font-bold rounded border border-red-200">Rx Required</span>` : ''}
+                        </div>
+
+                        <h3 class="font-extrabold text-navy-900 text-base leading-snug mb-1">${product.name}</h3>
+                        <p class="text-xs text-slate-400 mb-4">${product.category} •${details.unit}</p>
+                    </div>
+
+                    <div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 mb-4">
+                            <div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">${currentMode === 'b2b' ? 'Wholesale Price Rate' : 'Retail Price'}</div>                             <div class="flex items-baseline space-x-1">                                 <span class="text-xl font-black text-brand-700">$${details.price.toFixed(2)}</span>
+                                <span class="text-xs text-slate-500">/ unit</span>
+                            </div>
+                            <div class="text-[11px] text-slate-600 font-medium mt-1">Min. Order Quantity: <strong class="text-slate-900">${details.moq}${details.moq > 1 ? 'units' : 'unit'}</strong></div>
+                        </div>
+
+                        <button onclick="addToCart('${product.id}')" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow transition flex items-center justify-center space-x-1.5">
+                            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                            <span>Add to Cart (${details.moq})</span>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            lucide.createIcons();
+        }
+
+        // Cart Actions
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const details = currentMode === 'b2b' ? product.b2b : product.b2c;
+
+            const existingIndex = cart.findIndex(item => item.id === productId && item.mode === currentMode);
+
+            if (existingIndex > -1) {
+                cart[existingIndex].qty += details.moq;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    mode: currentMode,
+                    price: details.price,
+                    unit: details.unit,
+                    qty: details.moq,
+                    moqStep: details.moq
+                });
+            }
+
+            renderCart();
+            toggleCartDrawer(true);
+        }
+
+        function updateCartQty(index, change) {
+            const item = cart[index];
+            item.qty += change * item.moqStep;
+            if (item.qty <= 0) {
+                cart.splice(index, 1);
+            }
+            renderCart();
+        }
+
+        function renderCart() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartBadge = document.getElementById('cart-badge');
+            cartItemsContainer.innerHTML = '';
+
+            let subtotal = 0;
+            let totalItemCount = 0;
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `<div class="text-center py-12 text-slate-400 text-xs font-semibold">Your cart is empty.</div>`;
+            } else {
+                cart.forEach((item, index) => {
+                    const itemTotal = item.price * item.qty;
+                    subtotal += itemTotal;
+                    totalItemCount += item.qty;
+
+                    const div = document.createElement('div');
+                    div.className = "p-3 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center";
+                    div.innerHTML = `
+                        <div class="pr-2">
+                            <h4 class="text-xs font-bold text-navy-900">${item.name}</h4>
+                            <p class="text-[10px] text-slate-500">${item.unit} •$${item.price.toFixed(2)} each</p>
+                            <span class="inline-block mt-1 px-1.5 py-0.5 bg-slate-200 text-slate-700 text-[9px] font-bold rounded uppercase">${item.mode}</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="flex items-center bg-white border border-slate-200 rounded-lg">
+                                <button onclick="updateCartQty(${index}, -1)" class="px-2 py-1 text-xs font-bold text-slate-600 hover:bg-slate-100">-</button>
+                                <span class="px-2 text-xs font-bold text-slate-800">${item.qty}</span>
+                                <button onclick="updateCartQty(${index}, 1)" class="px-2 py-1 text-xs font-bold text-slate-600 hover:bg-slate-100">+</button>
+                            </div>
+                        </div>
+                    `;
+                    cartItemsContainer.appendChild(div);
+                });
+            }
+
+            const tax = subtotal * 0.08;
+            const total = subtotal + tax;
+
+            cartBadge.innerText = totalItemCount;
+            document.getElementById('cart-subtotal').innerText = `$${subtotal.toFixed(2)}`;
+            document.getElementById('cart-tax').innerText = `$${tax.toFixed(2)}`;
+            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+        }
+
+        function toggleCartDrawer(forceOpen = false) {
+            const drawer = document.getElementById('cart-drawer');
+            if (forceOpen) {
+                drawer.classList.remove('hidden');
+            } else {
+                drawer.classList.toggle('hidden');
+            }
+        }
+
+        // Search & Category Filtering
+        function handleSearch() {
+            searchQuery = document.getElementById('search-input').value;
+            renderProducts();
+        }
+
+        function filterCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                if (btn.innerText.toLowerCase().includes(cat.toLowerCase()) || (cat === 'all' && btn.innerText.includes('All'))) {
+                    btn.className = "cat-btn px-4 py-2 rounded-xl text-xs font-bold bg-navy-900 text-white whitespace-nowrap";
+                } else {
+                    btn.className = "cat-btn px-4 py-2 rounded-xl text-xs font-bold bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 whitespace-nowrap";
+                }
+            });
+            renderProducts();
+        }
+
+        // Volume Discount Calculator
+        function calculateVolumeDiscount() {
+            const units = parseInt(document.getElementById('volume-range').value);
+            let discount = 5;
+            let basePrice = 5.00;
+
+            if (units >= 500 && units < 2000) discount = 15;
+            else if (units >= 2000 && units < 4000) discount = 22;
+            else if (units >= 4000) discount = 30;
+
+            const finalPrice = basePrice * (1 - (discount / 100));
+
+            document.getElementById('calc-units').innerText = `${units.toLocaleString()} Units`;
+            document.getElementById('calc-discount').innerText = `${discount}% OFF`;
+            document.getElementById('calc-price').innerText = `$${finalPrice.toFixed(2)} / unit`;
+        }
+
+        // Modal Helpers
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        // Init App
+        window.onload = function() {
+            renderProducts();
+            calculateVolumeDiscount();
+            lucide.createIcons();
+        };
+    </script>
+</body>
+</html>
