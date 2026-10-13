@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Catalogue & Supply | Dawa2U Healthcare Delivered</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dawa: {
+                            navy: '#002040',
+                            green: '#007838',
+                            darkGreen: '#006020',
+                            brightGreen: '#108040',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
+
+    <!-- Top Announcement Bar -->
+    <div id="top-bar" class="bg-dawa-green text-white text-xs py-2 px-4 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="inline-block w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span>
+                <span id="announcement-text" class="font-medium">Healthcare Delivered • Licensed under Pharmacy & Poisons Board Guidelines.</span>
+            </div>
+            <div class="hidden sm:flex items-center space-x-6">
+                <span><i data-lucide="shield-check" class="inline w-3.5 h-3.5 mr-1"></i> PPB Verified Regulatory Compliance</span>
+                <a href="ask-pharmacist.html" class="hover:underline font-semibold"><i data-lucide="phone" class="inline w-3.5 h-3.5 mr-1"></i> Ask a Pharmacist</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <a href="index.html" class="flex items-center space-x-2 group">
+                        <div class="w-10 h-10 rounded-xl bg-dawa-green flex items-center justify-center text-white font-black text-xl shadow-md group-hover:bg-dawa-darkGreen transition">
+                            D
+                        </div>
+                        <div>
+                            <span class="text-2xl font-black tracking-tight text-dawa-navy">Dawa<span class="text-dawa-green">2U</span></span>
+                            <span class="block text-[10px] font-semibold text-slate-400 uppercase tracking-widest -mt-1">Healthcare Delivered</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- B2C / B2B Mode Switcher -->
+                <div class="hidden md:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
+                    <button id="btn-mode-b2c" onclick="setAccountMode('b2c')" class="px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-white text-dawa-navy shadow-sm">
+                        <i data-lucide="shopping-bag" class="w-3.5 h-3.5 text-dawa-green"></i>
+                        <span>Retail (B2C)</span>
+                    </button>
+                    <button id="btn-mode-b2b" onclick="setAccountMode('b2b')" class="px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-dawa-navy transition flex items-center space-x-1.5">
+                        <i data-lucide="building-2" class="w-3.5 h-3.5"></i>
+                        <span>Wholesale (B2B)</span>
+                        <span class="ml-1 px-1.5 py-0.5 text-[9px] bg-emerald-100 text-dawa-darkGreen rounded font-extrabold uppercase">Bulk</span>
+                    </button>
+                </div>
+
+                <!-- Search Input -->
+                <div class="hidden lg:block flex-1 max-w-md mx-8 relative">
+                    <div class="relative">
+                        <input id="search-input" onkeyup="handleSearch()" type="text" placeholder="Search by brand name, active ingredient, or category..." class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-dawa-green focus:bg-white transition">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
+                    </div>
+                </div>
+
+                <!-- Actions Right -->
+                <div class="flex items-center space-x-3">
+                    <a href="index.html" class="hidden sm:flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
+                        <i data-lucide="home" class="w-4 h-4"></i>
+                        <span>Home</span>
+                    </a>
+
+                    <!-- Cart Toggle -->
+                    <button onclick="toggleCartDrawer()" class="relative p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
+                        <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                        <span id="cart-badge" class="absolute -top-1 -right-1 bg-dawa-green text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Header Banner -->
+    <section class="bg-dawa-navy text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl font-black">Pharmaceutical Product Catalogue</h1>
+            <p id="catalogue-subtitle" class="text-slate-300 text-xs sm:text-sm mt-2 max-w-2xl">
+                Explore our certified starter list of essential medicines, OTC remedies, and medical devices. Backed by strict FEFO batch rotation and pharmacist verification[cite: 5].
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            
+            <!-- Sidebar Filters -->
+            <div class="space-y-6">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                    <h3 class="font-bold text-dawa-navy text-sm uppercase tracking-wider">Categories</h3>
+                    <div id="category-filters" class="flex flex-col space-y-1 text-xs font-semibold">
+                        <button onclick="filterCategory('all')" class="cat-filter-btn text-left px-3 py-2 rounded-xl bg-dawa-navy text-white transition">All Categories</button>
+                        <button onclick="filterCategory('Essential Medicines')" class="cat-filter-btn text-left px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition">Essential Medicines</button>
+                        <button onclick="filterCategory('OTC & Wellness')" class="cat-filter-btn text-left px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition">OTC & Wellness</button>
+                        <button onclick="filterCategory('Antimalarials & Antibiotics')" class="cat-filter-btn text-left px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition">Antimalarials & Antibiotics</button>
+                        <button onclick="filterCategory('Chronic & Diabetes')" class="cat-filter-btn text-left px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition">Chronic & Diabetes</button>
+                        <button onclick="filterCategory('Medical Devices')" class="cat-filter-btn text-left px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition">Medical Devices & First Aid</button>
+                    </div>
+                </div>
+
+                <div class="bg-emerald-50 border border-emerald-100 p-5 rounded-2xl text-xs space-y-2">
+                    <div class="flex items-center space-x-2 text-dawa-darkGreen font-bold">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-dawa-green"></i>
+                        <span>Prescription Verification</span>
+                    </div>
+                    <p class="text-slate-600 leading-relaxed">Items marked with <strong>Rx Required</strong> require a doctor's prescription verified by our duty pharmacist prior to final dispatch[cite: 5].</p>
+                </div>
+            </div>
+
+            <!-- Product Grid Area -->
+            <div class="lg:col-span-3 space-y-6">
+                <div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                    <span id="results-count" class="text-xs font-bold text-slate-600">Showing all items</span>
+                    <div class="flex items-center space-x-2 text-xs">
+                        <span class="text-slate-500 font-semibold">Sort by:</span>
+                        <select onchange="sortProducts(this.value)" class="bg-slate-50 border border-slate-200 rounded-lg p-1.5 font-bold text-dawa-navy outline-none">
+                            <option value="name">Alphabetical (A-Z)</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <!-- Dynamic Items Rendered Here -->
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Shopping Cart Drawer Overlay -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="toggleCartDrawer()"></div>
+        <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col">
+                
+                <div class="p-6 bg-dawa-navy text-white flex justify-between items-center">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="shopping-bag" class="w-5 h-5 text-emerald-400"></i>
+                        <h3 class="text-base font-bold">Your Order Cart</h3>
+                    </div>
+                    <button onclick="toggleCartDrawer()" class="text-slate-400 hover:text-white">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <div class="bg-emerald-50 border-b border-emerald-100 px-6 py-2 text-xs font-semibold text-dawa-darkGreen flex justify-between">
+                    <span>Pricing Tier: <strong id="cart-mode-label">Retail (B2C)</strong></span>
+                    <span id="cart-moq-label">FEFO Sourced</span>
+                </div>
+
+                <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4">
+                    <!-- Cart items rendered here -->
+                </div>
+
+                <div class="p-6 border-t border-slate-200 bg-slate-50 space-y-4">
+                    <div class="space-y-2 text-xs">
+                        <div class="flex justify-between text-slate-600">
+                            <span>Subtotal:</span>
+                            <span id="cart-subtotal" class="font-bold text-slate-900">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-slate-600">
+                            <span>Estimated Tax / VAT:</span>
+                            <span id="cart-tax" class="font-bold text-slate-900">$0.00</span>
+                        </div>
+                        <div class="flex justify-between text-sm font-black text-dawa-navy pt-2 border-t border-slate-200">
+                            <span>Total Amount:</span>
+                            <span id="cart-total" class="text-dawa-green">$0.00</span>
+                        </div>
+                    </div>
+
+                    <button onclick="alert('Order submitted successfully! M-Pesa prompt initiated.')" class="w-full py-3.5 bg-dawa-green hover:bg-dawa-brightGreen text-white font-bold text-sm rounded-xl shadow-lg transition flex items-center justify-center space-x-2">
+                        <i data-lucide="check-circle" class="w-4 h-4"></i>
+                        <span>Proceed to Secure Checkout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-[#001020] text-slate-400 py-8 text-center text-xs mt-12 border-t border-slate-800">
+        <p>&copy; 2026 Dawa2U (Dawa To You). All rights reserved. Healthcare Delivered[cite: 5].</p>
+    </footer>
+
+    <!-- Catalogue Logic -->
+    <script>
+        let currentMode = 'b2c';
+        let currentCategory = 'all';
+        let searchQuery = '';
+        let cart = [];
+
+        const products = [
+            {
+                id: 'cat-1',
+                name: 'Amoxicillin Trihydrate 500mg',
+                category: 'Antimalarials & Antibiotics',
+                rxRequired: true,
+                badge: 'Antibiotic',
+                b2c: { price: 8.50, moq: 1, unit: 'Pack of 20 Caps' },
+                b2b: { price: 3.80, moq: 50, unit: 'Box of 50 Packs (Bulk)' }
+            },
+            {
+                id: 'cat-2',
+                name: 'Paracetamol 500mg Caplets',
+                category: 'OTC & Wellness',
+                rxRequired: false,
+                badge: 'Pain & Fever',
+                b2c: { price: 2.50, moq: 1, unit: 'Blister of 10' },
+                b2b: { price: 0.90, moq: 100, unit: 'Carton of 100 Packs' }
+            },
+            {
+                id: 'cat-3',
+                name: 'Artemether-Lumefantrine 80/480mg',
+                category: 'Antimalarials & Antibiotics',
+                rxRequired: true,
+                badge: 'Antimalarial',
+                b2c: { price: 6.00, moq: 1, unit: 'Course Pack' },
+                b2b: { price: 2.75, moq: 50, unit: 'Box of 50 Packs' }
+            },
+            {
+                id: 'cat-4',
+                name: 'Metformin Hydrochloride 500mg',
+                category: 'Chronic & Diabetes',
+                rxRequired: true,
+                badge: 'Diabetes Care',
+                b2c: { price: 4.50, moq: 1, unit: 'Pack of 30' },
+                b2b: { price: 1.80, moq: 100, unit: 'Carton of 100' }
+            },
+            {
+                id: 'cat-5',
+                name: 'Digital Upper Arm Blood Pressure Monitor',
+                category: 'Medical Devices',
+                rxRequired: false,
+                badge: 'Diagnostic Device',
+                b2c: { price: 45.00, moq: 1, unit: 'Single Unit' },
+                b2b: { price: 28.00, moq: 10, unit: 'Clinic Pack of 10' }
+            },
+            {
+                id: 'cat-6',
+                name: 'Insulin Glargine Pen 100IU/ml',
+                category: 'Chronic & Diabetes',
+                rxRequired: true,
+                badge: 'Cold Chain Required',
+                b2c: { price: 22.00, moq: 1, unit: 'Single Pen 3ml' },
+                b2b: { price: 14.50, moq: 20, unit: 'Hospital Bundle' }
+            },
+            {
+                id: 'cat-7',
+                name: 'Ibuprofen 400mg Pain Relief',
+                category: 'OTC & Wellness',
+                rxRequired: false,
+                badge: 'Pain & Fever',
+                b2c: { price: 3.00, moq: 1, unit: 'Pack of 20' },
+                b2b: { price: 1.10, moq: 100, unit: 'Carton of 100' }
+            },
+            {
+                id: 'cat-8',
+                name: 'First Aid Emergency Trauma Kit',
+                category: 'Medical Devices',
+                rxRequired: false,
+                badge: 'First Aid',
+                b2c: { price: 18.50, moq: 1, unit: 'Complete Box' },
+                b2b: { price: 12.00, moq: 15, unit: 'Facility Pack' }
+            }
+        ];
+
+        function setAccountMode(mode) {
+            currentMode = mode;
+            const b2cBtn = document.getElementById('btn-mode-b2c');
+            const b2bBtn = document.getElementById('btn-mode-b2b');
+
+            if (mode === 'b2b') {
+                b2bBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-dawa-navy text-white shadow-sm";
+                b2cBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-dawa-navy transition flex items-center space-x-1.5";
+                document.getElementById('top-bar').className = "bg-dawa-navy text-white text-xs py-2 px-4 transition-colors duration-300";
+                document.getElementById('announcement-text').innerText = "WHOLESALE PORTAL ACTIVE: Bulk Tier Pricing & Facility Credit Terms Enabled.";
+                document.getElementById('cart-mode-label').innerText = "Wholesale (B2B Bulk)";
+            } else {
+                b2cBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-white text-dawa-navy shadow-sm";
+                b2bBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-dawa-navy transition flex items-center space-x-1.5";
+                document.getElementById('top-bar').className = "bg-dawa-green text-white text-xs py-2 px-4 transition-colors duration-300";
+                document.getElementById('announcement-text').innerText = "Healthcare Delivered • Licensed under Pharmacy & Poisons Board Guidelines.";
+                document.getElementById('cart-mode-label').innerText = "Retail (B2C)";
+            }
+
+            renderProducts();
+            renderCart();
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+
+            const filtered = products.filter(p => {
+                const matchesCat = currentCategory === 'all' || p.category === currentCategory;
+                const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || p.category.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCat && matchesSearch;
+            });
+
+            document.getElementById('results-count').innerText = `Showing ${filtered.length} pharmaceutical items`;
+
+            if(filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full py-16 text-center text-slate-400 font-medium">No items matched your search criteria.</div>`;
+                return;
+            }
+
+            filtered.forEach(product => {
+                const details = currentMode === 'b2b' ? product.b2b : product.b2c;
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl p-5 border border-slate-200 hover:border-dawa-green shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between";
+                
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-3">
+                            <span class="px-2.5 py-1 bg-slate-100 text-slate-700 text-[10px] font-bold rounded-md uppercase tracking-wider">${product.badge}</span>
+                            ${product.rxRequired ? `<span class="px-2 py-0.5 bg-red-50 text-red-600 text-[10px] font-bold rounded border border-red-200">Rx Required</span>` : ''}
+                        </div>
+
+                        <h3 class="font-extrabold text-dawa-navy text-base leading-snug mb-1">${product.name}</h3>
+                        <p class="text-xs text-slate-400 mb-4">${product.category} • ${details.unit}</p>
+                    </div>
+
+                    <div>
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 mb-4">
+                            <div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">${currentMode === 'b2b' ? 'Wholesale Price Rate' : 'Retail Price'}</div>
+                            <div class="flex items-baseline space-x-1">
+                                <span class="text-xl font-black text-dawa-green">$${details.price.toFixed(2)}</span>
+                                <span class="text-xs text-slate-500">/ unit</span>
+                            </div>
+                            <div class="text-[11px] text-slate-600 font-medium mt-1">Min. Order Quantity: <strong class="text-slate-900">${details.moq} ${details.moq > 1 ? 'units' : 'unit'}</strong></div>
+                        </div>
+
+                        <button onclick="addToCart('${product.id}')" class="w-full py-2.5 bg-dawa-green hover:bg-dawa-brightGreen text-white font-bold text-xs rounded-xl shadow transition flex items-center justify-center space-x-1.5">
+                            <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                            <span>Add to Cart (${details.moq})</span>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            lucide.createIcons();
+        }
+
+        function sortProducts(criteria) {
+            if (criteria === 'name') {
+                products.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (criteria === 'price-low') {
+                products.sort((a, b) => (currentMode === 'b2b' ? a.b2b.price - b.b2b.price : a.b2c.price - b.b2c.price));
+            } else if (criteria === 'price-high') {
+                products.sort((a, b) => (currentMode === 'b2b' ? b.b2b.price - a.b2b.price : b.b2c.price - a.b2c.price));
+            }
+            renderProducts();
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const details = currentMode === 'b2b' ? product.b2b : product.b2c;
+            const existingIndex = cart.findIndex(item => item.id === productId && item.mode === currentMode);
+
+            if (existingIndex > -1) {
+                cart[existingIndex].qty += details.moq;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    mode: currentMode,
+                    price: details.price,
+                    unit: details.unit,
+                    qty: details.moq,
+                    moqStep: details.moq
+                });
+            }
+
+            renderCart();
+            toggleCartDrawer(true);
+        }
+
+        function updateCartQty(index, change) {
+            const item = cart[index];
+            item.qty += change * item.moqStep;
+            if (item.qty <= 0) {
+                cart.splice(index, 1);
+            }
+            renderCart();
+        }
+
+        function renderCart() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartBadge = document.getElementById('cart-badge');
+            cartItemsContainer.innerHTML = '';
+
+            let subtotal = 0;
+            let totalItemCount = 0;
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = `<div class="text-center py-12 text-slate-400 text-xs font-semibold">Your cart is empty.</div>`;
+            } else {
+                cart.forEach((item, index) => {
+                    const itemTotal = item.price * item.qty;
+                    subtotal += itemTotal;
+                    totalItemCount += item.qty;
+
+                    const div = document.createElement('div');
+                    div.className = "p-3 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center";
+                    div.innerHTML = `
+                        <div class="pr-2">
+                            <h4 class="text-xs font-bold text-dawa-navy">${item.name}</h4>
+                            <p class="text-[10px] text-slate-500">${item.unit} • $${item.price.toFixed(2)} each</p>
+                            <span class="inline-block mt-1 px-1.5 py-0.5 bg-slate-200 text-slate-700 text-[9px] font-bold rounded uppercase">${item.mode}</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="flex items-center bg-white border border-slate-200 rounded-lg">
+                                <button onclick="updateCartQty(${index}, -1)" class="px-2 py-1 text-xs font-bold text-slate-600 hover:bg-slate-100">-</button>
+                                <span class="px-2 text-xs font-bold text-slate-800">${item.qty}</span>
+                                <button onclick="updateCartQty(${index}, 1)" class="px-2 py-1 text-xs font-bold text-slate-600 hover:bg-slate-100">+</button>
+                            </div>
+                        </div>
+                    `;
+                    cartItemsContainer.appendChild(div);
+                });
+            }
+
+            const tax = subtotal * 0.08;
+            const total = subtotal + tax;
+
+            cartBadge.innerText = totalItemCount;
+            document.getElementById('cart-subtotal').innerText = `$${subtotal.toFixed(2)}`;
+            document.getElementById('cart-tax').innerText = `$${tax.toFixed(2)}`;
+            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+        }
+
+        function toggleCartDrawer(forceOpen = false) {
+            const drawer = document.getElementById('cart-drawer');
+            if (forceOpen) {
+                drawer.classList.remove('hidden');
+            } else {
+                drawer.classList.toggle('hidden');
+            }
+        }
+
+        function handleSearch() {
+            searchQuery = document.getElementById('search-input').value;
+            renderProducts();
+        }
+
+        function filterCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+                if (btn.innerText.toLowerCase().includes(cat.toLowerCase().substring(0, 5)) || (cat === 'all' && btn.innerText.includes('All'))) {
+                    btn.className = "cat-filter-btn text-left px-3 py-2 rounded-xl bg-dawa-navy text-white transition";
+                } else {
+                    btn.className = "cat-filter-btn text-left px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition";
+                }
+            });
+            renderProducts();
+        }
+
+        window.onload = function() {
+            renderProducts();
+            lucide.createIcons();
+        };
+    </script>
+</body>
+</html>
