@@ -38,7 +38,7 @@
             </div>
             <div class="hidden sm:flex items-center space-x-6">
                 <span><i data-lucide="shield-check" class="inline w-3.5 h-3.5 mr-1"></i> PPB Verified Regulatory Compliance</span>
-                <a href="tel:+254700000000" class="hover:underline font-semibold"><i data-lucide="phone" class="inline w-3.5 h-3.5 mr-1"></i> Ask a Pharmacist Support</a>
+                <a href="ask-pharmacist.html" class="hover:underline font-semibold"><i data-lucide="phone" class="inline w-3.5 h-3.5 mr-1"></i> Ask a Pharmacist Support</a>
             </div>
         </div>
     </div>
@@ -50,7 +50,7 @@
                 
                 <!-- Logo -->
                 <div class="flex items-center space-x-3">
-                    <a href="#" class="flex items-center space-x-2 group">
+                    <a href="index.html" class="flex items-center space-x-2 group">
                         <div class="w-10 h-10 rounded-xl bg-dawa-green flex items-center justify-center text-white font-black text-xl shadow-md group-hover:bg-dawa-darkGreen transition">
                             D
                         </div>
@@ -60,6 +60,13 @@
                         </div>
                     </a>
                 </div>
+
+                <!-- Navigation Links -->
+                <nav class="hidden lg:flex items-center space-x-6 text-xs font-bold text-slate-600">
+                    <a href="index.html" class="text-dawa-green">Home</a>
+                    <a href="catalog.html" class="hover:text-dawa-green transition">Catalogue</a>
+                    <a href="ask-pharmacist.html" class="hover:text-dawa-green transition">Ask a Pharmacist</a>
+                </nav>
 
                 <!-- B2C / B2B Mode Switcher -->
                 <div class="hidden md:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
@@ -74,14 +81,6 @@
                     </button>
                 </div>
 
-                <!-- Search Input -->
-                <div class="hidden lg:block flex-1 max-w-md mx-8 relative">
-                    <div class="relative">
-                        <input id="search-input" onkeyup="handleSearch()" type="text" placeholder="Search medicines, active ingredients, or health devices..." class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-dawa-green focus:bg-white transition">
-                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
-                    </div>
-                </div>
-
                 <!-- Actions Right -->
                 <div class="flex items-center space-x-3">
                     <button onclick="openModal('rx-modal')" class="hidden sm:flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-50 text-dawa-green hover:bg-emerald-100 border border-emerald-200 transition">
@@ -94,21 +93,7 @@
                         <i data-lucide="shopping-cart" class="w-5 h-5"></i>
                         <span id="cart-badge" class="absolute -top-1 -right-1 bg-dawa-green text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
                     </button>
-
-                    <!-- Mobile Menu Button -->
-                    <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl bg-slate-100 text-slate-700">
-                        <i data-lucide="menu" class="w-5 h-5"></i>
-                    </button>
                 </div>
-            </div>
-        </div>
-
-        <!-- Mobile Switcher Bar -->
-        <div class="md:hidden px-4 pb-3 flex items-center justify-between border-t border-slate-100 pt-2 bg-slate-50">
-            <span class="text-xs font-bold text-slate-500">Order Mode:</span>
-            <div class="flex bg-slate-200 p-0.5 rounded-lg">
-                <button id="mobile-mode-b2c" onclick="setAccountMode('b2c')" class="px-3 py-1 text-xs font-bold rounded bg-white text-dawa-navy shadow-sm">Retail</button>
-                <button id="mobile-mode-b2b" onclick="setAccountMode('b2b')" class="px-3 py-1 text-xs font-bold rounded text-slate-600">Wholesale</button>
             </div>
         </div>
     </header>
@@ -135,8 +120,8 @@
                     </p>
 
                     <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-3 pt-2">
-                        <a href="#products-section" class="px-6 py-3.5 bg-dawa-green hover:bg-dawa-brightGreen text-white text-sm font-bold rounded-xl shadow-lg shadow-emerald-900/50 transition text-center flex items-center justify-center space-x-2">
-                            <span>Browse Medicine Catalogue</span>
+                        <a href="catalog.html" class="px-6 py-3.5 bg-dawa-green hover:bg-dawa-brightGreen text-white text-sm font-bold rounded-xl shadow-lg shadow-emerald-900/50 transition text-center flex items-center justify-center space-x-2">
+                            <span>Browse Full Catalogue</span>
                             <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </a>
                         <button onclick="openModal('rx-modal')" class="px-6 py-3.5 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-bold rounded-xl transition text-center flex items-center justify-center space-x-2 backdrop-blur-sm">
@@ -162,52 +147,49 @@
                     </div>
                 </div>
 
-                <!-- B2B Volume Calculator / Quick Action Card -->
+                <!-- Quick Actions & Facility Verification Card -->
                 <div class="lg:col-span-5">
-                    <div class="bg-white text-slate-800 rounded-2xl p-6 shadow-2xl border border-slate-100 relative">
-                        <div class="flex justify-between items-center border-b border-slate-100 pb-4 mb-4">
+                    <div class="bg-white text-slate-800 rounded-2xl p-6 shadow-2xl border border-slate-100 relative space-y-5">
+                        <div class="flex justify-between items-center border-b border-slate-100 pb-4">
                             <div>
-                                <h3 class="font-bold text-dawa-navy text-base">Bulk Wholesale Volume Estimator</h3>
-                                <p class="text-xs text-slate-500">For hospitals, clinics & retail chemists</p>
+                                <h3 class="font-bold text-dawa-navy text-base">Dawa2U Digital Services</h3>
+                                <p class="text-xs text-slate-500">Retail patients & wholesale institutions</p>
                             </div>
-                            <span class="px-2.5 py-1 bg-emerald-50 text-dawa-green text-xs font-bold rounded-md">B2B Direct</span>
+                            <span class="px-2.5 py-1 bg-emerald-50 text-dawa-green text-xs font-bold rounded-md">Live Portal</span>
                         </div>
 
-                        <div class="space-y-4">
-                            <div>
-                                <label class="text-xs font-bold text-slate-700 block mb-1">Select Order Tier (Units):</label>
-                                <input type="range" id="volume-range" min="50" max="5000" step="50" value="500" oninput="calculateVolumeDiscount()" class="w-full accent-dawa-green h-2 bg-slate-200 rounded-lg cursor-pointer">
-                                <div class="flex justify-between text-[11px] text-slate-500 font-semibold mt-1">
-                                    <span>50 Units</span>
-                                    <span>2,500 Units</span>
-                                    <span>5,000+ Units</span>
+                        <div class="space-y-3">
+                            <a href="catalog.html" class="flex items-center justify-between p-3.5 bg-slate-50 hover:bg-emerald-50 border border-slate-200 rounded-xl transition group">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-100 text-dawa-green flex items-center justify-center font-bold">
+                                        <i data-lucide="package" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-xs font-bold text-dawa-navy group-hover:text-dawa-green">Medicine & Device Catalogue</h4>
+                                        <p class="text-[10px] text-slate-500">Browse categories with B2C & B2B rates</p>
+                                    </div>
                                 </div>
-                            </div>
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+                            </a>
 
-                            <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-2">
-                                <div class="flex justify-between text-xs">
-                                    <span class="text-slate-600">Selected Volume:</span>
-                                    <span id="calc-units" class="font-bold text-dawa-navy">500 Units</span>
+                            <a href="ask-pharmacist.html" class="flex items-center justify-between p-3.5 bg-slate-50 hover:bg-emerald-50 border border-slate-200 rounded-xl transition group">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-100 text-dawa-green flex items-center justify-center font-bold">
+                                        <i data-lucide="message-square" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-xs font-bold text-dawa-navy group-hover:text-dawa-green">Ask a Pharmacist</h4>
+                                        <p class="text-[10px] text-slate-500">Confidential clinical & dosage questions</p>
+                                    </div>
                                 </div>
-                                <div class="flex justify-between text-xs">
-                                    <span class="text-slate-600">Estimated Tier Discount:</span>
-                                    <span id="calc-discount" class="font-bold text-emerald-600">15% OFF</span>
-                                </div>
-                                <div class="flex justify-between text-xs">
-                                    <span class="text-slate-600">Fulfilment Standard:</span>
-                                    <span class="font-bold text-slate-800">FEFO Certified Cold-Chain</span>
-                                </div>
-                                <div class="pt-2 border-t border-slate-200 flex justify-between items-center">
-                                    <span class="text-xs font-bold text-slate-700">Estimated Unit Price Rate:</span>
-                                    <span id="calc-price" class="text-lg font-black text-dawa-green">$4.25 / unit</span>
-                                </div>
-                            </div>
-
-                            <button onclick="openModal('b2b-modal')" class="w-full py-3 bg-dawa-navy hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition flex items-center justify-center space-x-2">
-                                <i data-lucide="file-check-2" class="w-4 h-4 text-emerald-400"></i>
-                                <span>Apply for Facility Credit Terms</span>
-                            </button>
+                                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+                            </a>
                         </div>
+
+                        <button onclick="openModal('b2b-modal')" class="w-full py-3 bg-dawa-navy hover:bg-slate-800 text-white text-xs font-bold rounded-xl transition flex items-center justify-center space-x-2">
+                            <i data-lucide="building-2" class="w-4 h-4 text-emerald-400"></i>
+                            <span>Apply for Wholesale Facility License</span>
+                        </button>
                     </div>
                 </div>
 
@@ -221,8 +203,8 @@
         <!-- Category & Search Bar -->
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
             <div>
-                <h2 id="catalog-title" class="text-2xl font-black text-dawa-navy">Retail Medicine Catalogue</h2>
-                <p id="catalog-subtitle" class="text-xs text-slate-500 mt-1">Showing individual patient pricing and standard pharmacist-verified dispatch options.</p>
+                <h2 id="catalog-title" class="text-2xl font-black text-dawa-navy">Featured Medicines & Essentials</h2>
+                <p id="catalog-subtitle" class="text-xs text-slate-500 mt-1">Showing individual patient pricing in KES with pharmacist-verified dispatch options.</p>
             </div>
 
             <!-- Categories Pill Nav -->
@@ -238,6 +220,13 @@
         <!-- Products Grid -->
         <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <!-- Dynamic Content Injected via JS -->
+        </div>
+
+        <div class="mt-12 text-center">
+            <a href="catalog.html" class="inline-flex items-center space-x-2 px-6 py-3 bg-slate-200 hover:bg-slate-300 text-dawa-navy font-bold text-xs rounded-xl transition">
+                <span>View Complete Catalogue & More Items</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
         </div>
     </main>
 
@@ -272,21 +261,21 @@
                     <div class="space-y-2 text-xs">
                         <div class="flex justify-between text-slate-600">
                             <span>Subtotal:</span>
-                            <span id="cart-subtotal" class="font-bold text-slate-900">$0.00</span>
+                            <span id="cart-subtotal" class="font-bold text-slate-900">KES 0.00</span>
                         </div>
                         <div class="flex justify-between text-slate-600">
-                            <span>Estimated Tax / VAT:</span>
-                            <span id="cart-tax" class="font-bold text-slate-900">$0.00</span>
+                            <span>Estimated VAT (16%):</span>
+                            <span id="cart-tax" class="font-bold text-slate-900">KES 0.00</span>
                         </div>
                         <div class="flex justify-between text-sm font-black text-dawa-navy pt-2 border-t border-slate-200">
                             <span>Total Amount:</span>
-                            <span id="cart-total" class="text-dawa-green">$0.00</span>
+                            <span id="cart-total" class="text-dawa-green">KES 0.00</span>
                         </div>
                     </div>
 
-                    <button onclick="alert('Order submitted successfully! Dawa2U pharmacist verification & M-Pesa checkout initiated.')" class="w-full py-3.5 bg-dawa-green hover:bg-dawa-brightGreen text-white font-bold text-sm rounded-xl shadow-lg transition flex items-center justify-center space-x-2">
+                    <button onclick="alert('Order submitted successfully! Dawa2U pharmacist verification & M-Pesa STK push initiated.')" class="w-full py-3.5 bg-dawa-green hover:bg-dawa-brightGreen text-white font-bold text-sm rounded-xl shadow-lg transition flex items-center justify-center space-x-2">
                         <i data-lucide="check-circle" class="w-4 h-4"></i>
-                        <span>Proceed to Secure Checkout</span>
+                        <span>Pay with M-Pesa / Secure Checkout</span>
                     </button>
                 </div>
             </div>
@@ -387,19 +376,19 @@
             <div>
                 <h4 class="font-bold text-white mb-3 uppercase tracking-wider text-[11px]">Retail Services (B2C)</h4>
                 <ul class="space-y-2">
-                    <li><a href="#" class="hover:text-white">Prescription Refills</a></li>
-                    <li><a href="#" class="hover:text-white">OTC & Wellness</a></li>
-                    <li><a href="#" class="hover:text-white">Ask a Pharmacist</a></li>
-                    <li><a href="#" class="hover:text-white">Mother & Baby Care</a></li>
+                    <li><a href="index.html" class="hover:text-white">Prescription Refills</a></li>
+                    <li><a href="catalog.html" class="hover:text-white">OTC & Wellness</a></li>
+                    <li><a href="ask-pharmacist.html" class="hover:text-white">Ask a Pharmacist</a></li>
+                    <li><a href="catalog.html" class="hover:text-white">Mother & Baby Care</a></li>
                 </ul>
             </div>
             <div>
                 <h4 class="font-bold text-white mb-3 uppercase tracking-wider text-[11px]">Wholesale Supply (B2B)</h4>
                 <ul class="space-y-2">
-                    <li><a href="#" class="hover:text-white">Hospital Bulk Supply</a></li>
-                    <li><a href="#" class="hover:text-white">Chemist Orders & FEFO Stock</a></li>
-                    <li><a href="#" class="hover:text-white">Cold-Chain Vaccines</a></li>
-                    <li><a href="#" class="hover:text-white">Facility Credit Terms</a></li>
+                    <li><a href="catalog.html" class="hover:text-white">Hospital Bulk Supply</a></li>
+                    <li><a href="catalog.html" class="hover:text-white">Chemist Orders & FEFO Stock</a></li>
+                    <li><a href="catalog.html" class="hover:text-white">Cold-Chain Vaccines</a></li>
+                    <li><a href="#" onclick="openModal('b2b-modal')" class="hover:text-white">Facility Credit Terms</a></li>
                 </ul>
             </div>
             <div>
@@ -430,8 +419,8 @@
                 category: 'Essential Medicines',
                 rxRequired: true,
                 badge: 'Antibiotic',
-                b2c: { price: 8.50, moq: 1, unit: 'Pack of 20 Caps' },
-                b2b: { price: 3.80, moq: 50, unit: 'Box of 50 Packs (Bulk)' }
+                b2c: { price: 850, moq: 1, unit: 'Pack of 20 Caps' },
+                b2b: { price: 450, moq: 50, unit: 'Box of 50 Packs (Bulk)' }
             },
             {
                 id: 'prod-2',
@@ -439,8 +428,8 @@
                 category: 'OTC & Wellness',
                 rxRequired: false,
                 badge: 'Pain Relief',
-                b2c: { price: 2.50, moq: 1, unit: 'Blister of 10' },
-                b2b: { price: 0.90, moq: 100, unit: 'Carton of 100 Packs' }
+                b2c: { price: 150, moq: 1, unit: 'Blister of 10' },
+                b2b: { price: 95, moq: 100, unit: 'Carton of 100 Packs' }
             },
             {
                 id: 'prod-3',
@@ -448,8 +437,8 @@
                 category: 'Medical Devices',
                 rxRequired: false,
                 badge: 'Diagnostic',
-                b2c: { price: 45.00, moq: 1, unit: 'Single Unit' },
-                b2b: { price: 28.00, moq: 10, unit: 'Clinic Pack of 10' }
+                b2c: { price: 4500, moq: 1, unit: 'Single Unit' },
+                b2b: { price: 3200, moq: 10, unit: 'Clinic Pack of 10' }
             },
             {
                 id: 'prod-4',
@@ -457,8 +446,8 @@
                 category: 'First Aid',
                 rxRequired: false,
                 badge: 'Personal Safety',
-                b2c: { price: 5.00, moq: 1, unit: 'Box of 50' },
-                b2b: { price: 2.10, moq: 50, unit: 'Carton (50 Boxes)' }
+                b2c: { price: 500, moq: 1, unit: 'Box of 50' },
+                b2b: { price: 320, moq: 50, unit: 'Carton (50 Boxes)' }
             },
             {
                 id: 'prod-5',
@@ -466,8 +455,8 @@
                 category: 'Essential Medicines',
                 rxRequired: true,
                 badge: 'Cold Chain Required',
-                b2c: { price: 22.00, moq: 1, unit: 'Single Pen 3ml' },
-                b2b: { price: 14.50, moq: 20, unit: 'Hospital Bundle of 20' }
+                b2c: { price: 2800, moq: 1, unit: 'Single Pen 3ml' },
+                b2b: { price: 2200, moq: 20, unit: 'Hospital Bundle of 20' }
             },
             {
                 id: 'prod-6',
@@ -475,8 +464,8 @@
                 category: 'First Aid',
                 rxRequired: false,
                 badge: 'Wound Care',
-                b2c: { price: 1.20, moq: 1, unit: 'Pack of 2' },
-                b2b: { price: 0.45, moq: 200, unit: 'Bale of 200 Packs' }
+                b2c: { price: 200, moq: 1, unit: 'Pack of 2' },
+                b2b: { price: 120, moq: 200, unit: 'Bale of 200 Packs' }
             }
         ];
 
@@ -484,14 +473,10 @@
             currentMode = mode;
             const b2cBtn = document.getElementById('btn-mode-b2c');
             const b2bBtn = document.getElementById('btn-mode-b2b');
-            const mobileB2c = document.getElementById('mobile-mode-b2c');
-            const mobileB2b = document.getElementById('mobile-mode-b2b');
 
             if (mode === 'b2b') {
                 b2bBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-dawa-navy text-white shadow-sm";
                 b2cBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-dawa-navy transition flex items-center space-x-1.5";
-                mobileB2b.className = "px-3 py-1 text-xs font-bold rounded bg-dawa-navy text-white shadow-sm";
-                mobileB2c.className = "px-3 py-1 text-xs font-bold rounded text-slate-600";
 
                 document.getElementById('top-bar').className = "bg-dawa-navy text-white text-xs py-2 px-4 transition-colors duration-300";
                 document.getElementById('announcement-text').innerText = "WHOLESALE PORTAL ACTIVE: Bulk Tier Pricing & Facility Credit Terms Enabled.";
@@ -502,13 +487,11 @@
             } else {
                 b2cBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-white text-dawa-navy shadow-sm";
                 b2bBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-dawa-navy transition flex items-center space-x-1.5";
-                mobileB2c.className = "px-3 py-1 text-xs font-bold rounded bg-white text-dawa-navy shadow-sm";
-                mobileB2b.className = "px-3 py-1 text-xs font-bold rounded text-slate-600";
 
                 document.getElementById('top-bar').className = "bg-dawa-green text-white text-xs py-2 px-4 transition-colors duration-300";
                 document.getElementById('announcement-text').innerText = "Healthcare Delivered • Licensed under Pharmacy & Poisons Board Guidelines.";
-                document.getElementById('catalog-title').innerText = "Retail Medicine Catalogue";
-                document.getElementById('catalog-subtitle').innerText = "Showing individual patient pricing and standard pharmacist-verified dispatch options.";
+                document.getElementById('catalog-title').innerText = "Featured Medicines & Essentials";
+                document.getElementById('catalog-subtitle').innerText = "Showing individual patient pricing in KES with pharmacist-verified dispatch options.";
                 document.getElementById('cart-mode-label').innerText = "Retail (B2C)";
                 document.getElementById('cart-moq-label').innerText = "MOQ: Standard";
             }
@@ -552,7 +535,7 @@
                         <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 mb-4">
                             <div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">${currentMode === 'b2b' ? 'Wholesale Price Rate' : 'Retail Price'}</div>
                             <div class="flex items-baseline space-x-1">
-                                <span class="text-xl font-black text-dawa-green">$${details.price.toFixed(2)}</span>
+                                <span class="text-lg font-black text-dawa-green">KES ${details.price.toLocaleString()}</span>
                                 <span class="text-xs text-slate-500">/ unit</span>
                             </div>
                             <div class="text-[11px] text-slate-600 font-medium mt-1">Min. Order Quantity: <strong class="text-slate-900">${details.moq} ${details.moq > 1 ? 'units' : 'unit'}</strong></div>
@@ -623,7 +606,7 @@
                     div.innerHTML = `
                         <div class="pr-2">
                             <h4 class="text-xs font-bold text-dawa-navy">${item.name}</h4>
-                            <p class="text-[10px] text-slate-500">${item.unit} • $${item.price.toFixed(2)} each</p>
+                            <p class="text-[10px] text-slate-500">${item.unit} • KES ${item.price.toLocaleString()} each</p>
                             <span class="inline-block mt-1 px-1.5 py-0.5 bg-slate-200 text-slate-700 text-[9px] font-bold rounded uppercase">${item.mode}</span>
                         </div>
                         <div class="flex items-center space-x-2">
@@ -638,13 +621,13 @@
                 });
             }
 
-            const tax = subtotal * 0.08;
+            const tax = subtotal * 0.16;
             const total = subtotal + tax;
 
             cartBadge.innerText = totalItemCount;
-            document.getElementById('cart-subtotal').innerText = `$${subtotal.toFixed(2)}`;
-            document.getElementById('cart-tax').innerText = `$${tax.toFixed(2)}`;
-            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+            document.getElementById('cart-subtotal').innerText = `KES ${subtotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('cart-tax').innerText = `KES ${tax.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('cart-total').innerText = `KES ${total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
         }
 
         function toggleCartDrawer(forceOpen = false) {
@@ -654,11 +637,6 @@
             } else {
                 drawer.classList.toggle('hidden');
             }
-        }
-
-        function handleSearch() {
-            searchQuery = document.getElementById('search-input').value;
-            renderProducts();
         }
 
         function filterCategory(cat) {
@@ -673,22 +651,6 @@
             renderProducts();
         }
 
-        function calculateVolumeDiscount() {
-            const units = parseInt(document.getElementById('volume-range').value);
-            let discount = 5;
-            let basePrice = 5.00;
-
-            if (units >= 500 && units < 2000) discount = 15;
-            else if (units >= 2000 && units < 4000) discount = 22;
-            else if (units >= 4000) discount = 30;
-
-            const finalPrice = basePrice * (1 - (discount / 100));
-
-            document.getElementById('calc-units').innerText = `${units.toLocaleString()} Units`;
-            document.getElementById('calc-discount').innerText = `${discount}% OFF`;
-            document.getElementById('calc-price').innerText = `$${finalPrice.toFixed(2)} / unit`;
-        }
-
         function openModal(id) {
             document.getElementById(id).classList.remove('hidden');
         }
@@ -699,7 +661,6 @@
 
         window.onload = function() {
             renderProducts();
-            calculateVolumeDiscount();
             lucide.createIcons();
         };
     </script>
