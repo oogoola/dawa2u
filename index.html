@@ -425,28 +425,28 @@
             renderProducts();
         }
 
-        function addToCart(productId) {
-            const product = products.find(p => p.id === productId);
-            const details = currentMode === 'b2b' ? product.b2b : product.b2c;
-            const existingIndex = cart.findIndex(item => item.id === productId && item.mode === currentMode);
+ function addToCart(productId) {
+    const product = products.find(p => p.id === productId);
+    const details = currentMode === 'b2b' ? product.b2b : product.b2c;
+    const existingIndex = cart.findIndex(item => item.id === productId && item.mode === currentMode);
 
-            if (existingIndex > -1) {
-                cart[existingIndex].qty += details.moq;
-            } else {
-                cart.push({
-                    id: product.id,
-                    name: product.name,
-                    mode: currentMode,
-                    price: details.price,
-                    unit: details.unit,
-                    qty: details.moq,
-                    moqStep: details.moq
-                });
-            }
+    if (existingIndex > -1) {
+        cart[existingIndex].qty += details.moq;
+    } else {
+        cart.push({
+            id: product.id,
+            name: product.name,
+            mode: currentMode,
+            price: details.price,
+            unit: details.unit,
+            qty: details.moq,
+            moqStep: details.moq
+        });
+    }
 
-            renderCart();
-            toggleCartDrawer(true);
-        }
+    renderCart(); // Updates the cart total and badge counter silently
+    // toggleCartDrawer(true); <-- Commented out or removed so it stays closed!
+}
 
         function updateCartQty(index, change) {
             const item = cart[index];
