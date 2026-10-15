@@ -113,7 +113,7 @@
     </section>
 
     <!-- Main Content Area -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+    <main class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-8 flex-1 w-full">
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
             
             <!-- Sidebar Filters -->
@@ -153,8 +153,8 @@
                     </div>
                 </div>
 
-                <!-- Products Grid -->
-                <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- Products Grid: 2 items side-by-side on mobile (grid-cols-2), scaling to 3 on tablets/small laptops (lg:grid-cols-3) and 4 on large screens (xl:grid-cols-4) -->
+                <div id="product-grid" class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
                     <!-- Dynamic Items Rendered Here -->
                 </div>
             </div>
@@ -379,32 +379,32 @@
             filtered.forEach(product => {
                 const details = currentMode === 'b2b' ? product.b2b : product.b2c;
                 const card = document.createElement('div');
-                card.className = "bg-white rounded-2xl p-5 border border-slate-200 hover:border-dawa-green shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between";
+                card.className = "bg-white rounded-xl sm:rounded-2xl p-3 sm:p-5 border border-slate-200 hover:border-dawa-green shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between";
                 
                 card.innerHTML = `
                     <div>
-                        <div class="flex justify-between items-start mb-3">
-                            <span class="px-2.5 py-1 bg-slate-100 text-slate-700 text-[10px] font-bold rounded-md uppercase tracking-wider">${product.badge}</span>
-                            ${product.rxRequired ? `<span class="px-2 py-0.5 bg-red-50 text-red-600 text-[10px] font-bold rounded border border-red-200">Rx Required</span>` : ''}
+                        <div class="flex flex-wrap justify-between items-start gap-1 mb-2">
+                            <span class="px-2 py-0.5 bg-slate-100 text-slate-700 text-[9px] sm:text-[10px] font-bold rounded-md uppercase tracking-wider">${product.badge}</span>
+                            ${product.rxRequired ? `<span class="px-1.5 py-0.5 bg-red-50 text-red-600 text-[9px] sm:text-[10px] font-bold rounded border border-red-200">Rx Required</span>` : ''}
                         </div>
 
-                        <h3 class="font-extrabold text-dawa-navy text-base leading-snug mb-1">${product.name}</h3>
-                        <p class="text-xs text-slate-400 mb-4">${product.category} • ${details.unit}</p>
+                        <h3 class="font-extrabold text-dawa-navy text-xs sm:text-base leading-snug mb-1">${product.name}</h3>
+                        <p class="text-[10px] sm:text-xs text-slate-400 mb-3">${product.category} • ${details.unit}</p>
                     </div>
 
                     <div>
-                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 mb-4">
-                            <div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">${currentMode === 'b2b' ? 'Wholesale Price Rate' : 'Retail Price'}</div>
+                        <div class="bg-slate-50 p-2 sm:p-3 rounded-xl border border-slate-100 mb-3">
+                            <div class="text-[9px] sm:text-[10px] text-slate-400 uppercase font-bold tracking-wider">${currentMode === 'b2b' ? 'Wholesale Price Rate' : 'Retail Price'}</div>
                             <div class="flex items-baseline space-x-1">
-                                <span class="text-lg font-black text-dawa-green">KES ${details.price.toLocaleString()}</span>
-                                <span class="text-xs text-slate-500">/ unit</span>
+                                <span class="text-sm sm:text-lg font-black text-dawa-green">KES ${details.price.toLocaleString()}</span>
+                                <span class="text-[10px] sm:text-xs text-slate-500">/ unit</span>
                             </div>
-                            <div class="text-[11px] text-slate-600 font-medium mt-1">Min. Order Quantity: <strong class="text-slate-900">${details.moq} ${details.moq > 1 ? 'units' : 'unit'}</strong></div>
+                            <div class="text-[10px] sm:text-[11px] text-slate-600 font-medium mt-1">MOQ: <strong class="text-slate-900">${details.moq}</strong></div>
                         </div>
 
-                        <button onclick="addToCart('${product.id}')" class="w-full py-2.5 bg-dawa-green hover:bg-dawa-brightGreen text-white font-bold text-xs rounded-xl shadow transition flex items-center justify-center space-x-1.5">
-                            <i data-lucide="plus-circle" class="w-4 h-4"></i>
-                            <span>Add to Cart (${details.moq})</span>
+                        <button onclick="addToCart('${product.id}')" class="w-full py-2 bg-dawa-green hover:bg-dawa-brightGreen text-white font-bold text-[11px] sm:text-xs rounded-xl shadow transition flex items-center justify-center space-x-1">
+                            <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i>
+                            <span>Add (${details.moq})</span>
                         </button>
                     </div>
                 `;
