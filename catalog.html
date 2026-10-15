@@ -57,7 +57,7 @@
                     </a>
                 </div>
 
-                <!-- B2C / B2B Mode Switcher -->
+                <!-- B2C / B2B Mode Switcher (Desktop) -->
                 <div class="hidden md:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200">
                     <button id="btn-mode-b2c" onclick="setAccountMode('b2c')" class="px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-white text-dawa-navy shadow-sm">
                         <i data-lucide="shopping-bag" class="w-3.5 h-3.5 text-dawa-green"></i>
@@ -70,7 +70,7 @@
                     </button>
                 </div>
 
-                <!-- Search Input -->
+                <!-- Search Input (Desktop) -->
                 <div class="hidden lg:block flex-1 max-w-md mx-8 relative">
                     <div class="relative">
                         <input id="search-input" onkeyup="handleSearch()" type="text" placeholder="Search by brand name, active ingredient, or category..." class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-dawa-green focus:bg-white transition">
@@ -79,16 +79,21 @@
                 </div>
 
                 <!-- Actions Right -->
-                <div class="flex items-center space-x-3">
+                <div class="flex items-center space-x-2 sm:space-x-3">
                     <a href="index.html" class="hidden sm:flex items-center space-x-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition">
                         <i data-lucide="home" class="w-4 h-4"></i>
                         <span>Home</span>
                     </a>
 
+                    <!-- Mobile Mode Switcher Toggle (Visible on Mobile only) -->
+                    <button onclick="setAccountMode(currentMode === 'b2c' ? 'b2b' : 'b2c')" class="md:hidden px-2.5 py-2 bg-slate-100 rounded-xl text-xs font-bold text-dawa-navy border border-slate-200">
+                        <span id="mobile-mode-badge">B2C</span>
+                    </button>
+
                     <!-- Cart Toggle -->
                     <button onclick="toggleCartDrawer()" class="relative p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
                         <i data-lucide="shopping-cart" class="w-5 h-5"></i>
-                        <span id="cart-badge" class="absolute -top-1 -right-1 bg-dawa-green text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+                        <span id="cart-badge" class="absolute -top-1 -right-1 bg-dawa-green text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center transition-transform duration-300">0</span>
                     </button>
                 </div>
             </div>
@@ -96,21 +101,42 @@
     </header>
 
     <!-- Header Banner -->
-    <section class="bg-dawa-navy text-white py-12">
+    <section class="bg-dawa-navy text-white py-8 sm:py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-black">Pharmaceutical Product Catalogue</h1>
+            <h1 class="text-2xl sm:text-3xl font-black">Pharmaceutical Product Catalogue</h1>
             <p id="catalogue-subtitle" class="text-slate-300 text-xs sm:text-sm mt-2 max-w-2xl">
-                Explore our certified starter list of essential medicines, OTC remedies, and medical devices. Backed by strict FEFO batch rotation and pharmacist verification.
+                Explore our certified starter list of essential medicines, OTC remedies, and medical devices in KES. Backed by strict FEFO batch rotation and pharmacist verification.
             </p>
         </div>
     </section>
 
     <!-- Main Content Area -->
-    <main class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+    <main class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8 py-6 sm:py-8 flex-1 w-full">
+        
+        <!-- Mobile Search Bar (Visible on Mobile) -->
+        <div class="lg:hidden mb-4 px-2">
+            <div class="relative">
+                <input id="mobile-search-input" onkeyup="handleMobileSearch()" type="text" placeholder="Search medicines or categories..." class="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-dawa-green shadow-sm">
+                <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-2.5"></i>
+            </div>
+        </div>
+
+        <!-- MOBILE HORIZONTAL SCROLLING CATEGORIES -->
+        <div class="lg:hidden mb-6 px-2">
+            <div class="flex space-x-2 overflow-x-auto pb-2 scrollbar-none text-xs font-semibold">
+                <button onclick="filterCategory('all')" class="cat-filter-btn flex-shrink-0 px-3.5 py-2 rounded-xl bg-dawa-navy text-white transition">All Categories</button>
+                <button onclick="filterCategory('Essential Medicines')" class="cat-filter-btn flex-shrink-0 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-600 transition">Essential Medicines</button>
+                <button onclick="filterCategory('OTC & Wellness')" class="cat-filter-btn flex-shrink-0 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-600 transition">OTC & Wellness</button>
+                <button onclick="filterCategory('Antimalarials & Antibiotics')" class="cat-filter-btn flex-shrink-0 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-600 transition">Antimalarials & Antibiotics</button>
+                <button onclick="filterCategory('Chronic & Diabetes')" class="cat-filter-btn flex-shrink-0 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-600 transition">Chronic & Diabetes</button>
+                <button onclick="filterCategory('Medical Devices')" class="cat-filter-btn flex-shrink-0 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-600 transition">Medical Devices</button>
+            </div>
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
             
-            <!-- Sidebar Filters -->
-            <div class="space-y-6">
+            <!-- DESKTOP SIDEBAR FILTERS (Hidden on Mobile) -->
+            <div class="hidden lg:block space-y-6">
                 <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
                     <h3 class="font-bold text-dawa-navy text-sm uppercase tracking-wider">Categories</h3>
                     <div id="category-filters" class="flex flex-col space-y-1 text-xs font-semibold">
@@ -137,8 +163,8 @@
                 <div class="flex justify-between items-center bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
                     <span id="results-count" class="text-xs font-bold text-slate-600">Showing all items</span>
                     <div class="flex items-center space-x-2 text-xs">
-                        <span class="text-slate-500 font-semibold">Sort by:</span>
-                        <select onchange="sortProducts(this.value)" class="bg-slate-50 border border-slate-200 rounded-lg p-1.5 font-bold text-dawa-navy outline-none">
+                        <span class="text-slate-500 font-semibold">Sort:</span>
+                        <select onchange="sortProducts(this.value)" class="bg-slate-50 border border-slate-200 rounded-lg p-1.5 font-bold text-dawa-navy outline-none text-xs">
                             <option value="name">Alphabetical (A-Z)</option>
                             <option value="price-low">Price: Low to High</option>
                             <option value="price-high">Price: High to Low</option>
@@ -146,7 +172,7 @@
                     </div>
                 </div>
 
-                <!-- Products Grid: 2 items side-by-side on mobile, 3 on tablets, 4 on desktop -->
+                <!-- Products Grid: 2 columns on mobile, 3 on tablet, 4 on desktop -->
                 <div id="product-grid" class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
                     <!-- Dynamic Items Rendered Here -->
                 </div>
@@ -184,30 +210,64 @@
                     <div class="space-y-2 text-xs">
                         <div class="flex justify-between text-slate-600">
                             <span>Subtotal:</span>
-                            <span id="cart-subtotal" class="font-bold text-slate-900">$0.00</span>
+                            <span id="cart-subtotal" class="font-bold text-slate-900">KES 0.00</span>
                         </div>
                         <div class="flex justify-between text-slate-600">
-                            <span>Estimated Tax / VAT:</span>
-                            <span id="cart-tax" class="font-bold text-slate-900">$0.00</span>
+                            <span>Estimated VAT (16%):</span>
+                            <span id="cart-tax" class="font-bold text-slate-900">KES 0.00</span>
                         </div>
                         <div class="flex justify-between text-sm font-black text-dawa-navy pt-2 border-t border-slate-200">
                             <span>Total Amount:</span>
-                            <span id="cart-total" class="text-dawa-green">$0.00</span>
+                            <span id="cart-total" class="text-dawa-green">KES 0.00</span>
                         </div>
                     </div>
 
                     <button onclick="alert('Order submitted successfully! M-Pesa prompt initiated.')" class="w-full py-3.5 bg-dawa-green hover:bg-dawa-brightGreen text-white font-bold text-sm rounded-xl shadow-lg transition flex items-center justify-center space-x-2">
                         <i data-lucide="check-circle" class="w-4 h-4"></i>
-                        <span>Proceed to Secure Checkout</span>
+                        <span>Pay with M-Pesa / Secure Checkout</span>
                     </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-[#001020] text-slate-400 py-8 text-center text-xs mt-12 border-t border-slate-800">
-        <p>&copy; 2026 Dawa2U (Dawa To You). All rights reserved. Healthcare Delivered.</p>
+    <!-- Global Footer -->
+    <footer class="bg-[#001020] text-slate-400 py-12 border-t border-slate-800 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 text-xs">
+            <div class="space-y-3">
+                <span class="text-xl font-black text-white">Dawa<span class="text-emerald-400">2U</span></span>
+                <p class="text-slate-400 leading-relaxed">
+                    Healthcare Delivered. Connecting customers with quality medicines, professional verification, and convenient delivery.
+                </p>
+                <p class="text-[10px] text-slate-500">Registered Business: Dawa To You</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-white mb-3 uppercase tracking-wider text-[11px]">Retail Services (B2C)</h4>
+                <ul class="space-y-2">
+                    <li><a href="index.html" class="hover:text-white">Prescription Refills</a></li>
+                    <li><a href="catalog.html" class="hover:text-white">OTC & Wellness</a></li>
+                    <li><a href="ask-pharmacist.html" class="hover:text-white">Ask a Pharmacist</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-white mb-3 uppercase tracking-wider text-[11px]">Wholesale Supply (B2B)</h4>
+                <ul class="space-y-2">
+                    <li><a href="catalog.html" class="hover:text-white">Hospital Bulk Supply</a></li>
+                    <li><a href="catalog.html" class="hover:text-white">Chemist Orders & FEFO Stock</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold text-white mb-3 uppercase tracking-wider text-[11px]">Regulatory Compliance</h4>
+                <p class="mb-2">Licensed under Pharmacy & Poisons Board Guidelines.</p>
+                <div class="flex items-center space-x-2 text-emerald-400 font-semibold">
+                    <i data-lucide="shield-check" class="w-4 h-4"></i>
+                    <span>PPB Registered & Verified</span>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 pt-6 border-t border-slate-800 text-center text-slate-500 text-[11px]">
+            &copy; 2026 Dawa2U (Dawa To You). All rights reserved. Trademark application submitted.
+        </div>
     </footer>
 
     <!-- Catalogue Logic -->
@@ -224,8 +284,8 @@
                 category: 'Antimalarials & Antibiotics',
                 rxRequired: true,
                 badge: 'Antibiotic',
-                b2c: { price: 8.50, moq: 1, unit: 'Pack of 20 Caps' },
-                b2b: { price: 3.80, moq: 50, unit: 'Box of 50 Packs (Bulk)' }
+                b2c: { price: 850, moq: 1, unit: 'Pack of 20 Caps' },
+                b2b: { price: 450, moq: 50, unit: 'Box of 50 Packs (Bulk)' }
             },
             {
                 id: 'cat-2',
@@ -233,8 +293,8 @@
                 category: 'OTC & Wellness',
                 rxRequired: false,
                 badge: 'Pain & Fever',
-                b2c: { price: 2.50, moq: 1, unit: 'Blister of 10' },
-                b2b: { price: 0.90, moq: 100, unit: 'Carton of 100 Packs' }
+                b2c: { price: 150, moq: 1, unit: 'Blister of 10' },
+                b2b: { price: 95, moq: 100, unit: 'Carton of 100 Packs' }
             },
             {
                 id: 'cat-3',
@@ -242,8 +302,8 @@
                 category: 'Antimalarials & Antibiotics',
                 rxRequired: true,
                 badge: 'Antimalarial',
-                b2c: { price: 6.00, moq: 1, unit: 'Course Pack' },
-                b2b: { price: 2.75, moq: 50, unit: 'Box of 50 Packs' }
+                b2c: { price: 600, moq: 1, unit: 'Course Pack' },
+                b2b: { price: 380, moq: 50, unit: 'Box of 50 Packs' }
             },
             {
                 id: 'cat-4',
@@ -251,8 +311,8 @@
                 category: 'Chronic & Diabetes',
                 rxRequired: true,
                 badge: 'Diabetes Care',
-                b2c: { price: 4.50, moq: 1, unit: 'Pack of 30' },
-                b2b: { price: 1.80, moq: 100, unit: 'Carton of 100' }
+                b2c: { price: 450, moq: 1, unit: 'Pack of 30' },
+                b2b: { price: 250, moq: 100, unit: 'Carton of 100' }
             },
             {
                 id: 'cat-5',
@@ -260,8 +320,8 @@
                 category: 'Medical Devices',
                 rxRequired: false,
                 badge: 'Diagnostic Device',
-                b2c: { price: 45.00, moq: 1, unit: 'Single Unit' },
-                b2b: { price: 28.00, moq: 10, unit: 'Clinic Pack of 10' }
+                b2c: { price: 4500, moq: 1, unit: 'Single Unit' },
+                b2b: { price: 3200, moq: 10, unit: 'Clinic Pack of 10' }
             },
             {
                 id: 'cat-6',
@@ -269,8 +329,8 @@
                 category: 'Chronic & Diabetes',
                 rxRequired: true,
                 badge: 'Cold Chain Required',
-                b2c: { price: 22.00, moq: 1, unit: 'Single Pen 3ml' },
-                b2b: { price: 14.50, moq: 20, unit: 'Hospital Bundle' }
+                b2c: { price: 2800, moq: 1, unit: 'Single Pen 3ml' },
+                b2b: { price: 2200, moq: 20, unit: 'Hospital Bundle' }
             },
             {
                 id: 'cat-7',
@@ -278,8 +338,8 @@
                 category: 'OTC & Wellness',
                 rxRequired: false,
                 badge: 'Pain & Fever',
-                b2c: { price: 3.00, moq: 1, unit: 'Pack of 20' },
-                b2b: { price: 1.10, moq: 100, unit: 'Carton of 100' }
+                b2c: { price: 300, moq: 1, unit: 'Pack of 20' },
+                b2b: { price: 180, moq: 100, unit: 'Carton of 100' }
             },
             {
                 id: 'cat-8',
@@ -287,8 +347,8 @@
                 category: 'Medical Devices',
                 rxRequired: false,
                 badge: 'First Aid',
-                b2c: { price: 18.50, moq: 1, unit: 'Complete Box' },
-                b2b: { price: 12.00, moq: 15, unit: 'Facility Pack' }
+                b2c: { price: 1850, moq: 1, unit: 'Complete Box' },
+                b2b: { price: 1400, moq: 15, unit: 'Facility Pack' }
             }
         ];
 
@@ -296,16 +356,25 @@
             currentMode = mode;
             const b2cBtn = document.getElementById('btn-mode-b2c');
             const b2bBtn = document.getElementById('btn-mode-b2b');
+            const mobileBadge = document.getElementById('mobile-mode-badge');
+
+            if (mobileBadge) {
+                mobileBadge.innerText = mode.toUpperCase();
+            }
 
             if (mode === 'b2b') {
-                b2bBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-dawa-navy text-white shadow-sm";
-                b2cBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-dawa-navy transition flex items-center space-x-1.5";
+                if (b2bBtn && b2cBtn) {
+                    b2bBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-dawa-navy text-white shadow-sm";
+                    b2cBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-dawa-navy transition flex items-center space-x-1.5";
+                }
                 document.getElementById('top-bar').className = "bg-dawa-navy text-white text-xs py-2 px-4 transition-colors duration-300";
                 document.getElementById('announcement-text').innerText = "WHOLESALE PORTAL ACTIVE: Bulk Tier Pricing & Facility Credit Terms Enabled.";
                 document.getElementById('cart-mode-label').innerText = "Wholesale (B2B Bulk)";
             } else {
-                b2cBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-white text-dawa-navy shadow-sm";
-                b2bBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-dawa-navy transition flex items-center space-x-1.5";
+                if (b2bBtn && b2cBtn) {
+                    b2cBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1.5 bg-white text-dawa-navy shadow-sm";
+                    b2bBtn.className = "px-4 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-dawa-navy transition flex items-center space-x-1.5";
+                }
                 document.getElementById('top-bar').className = "bg-dawa-green text-white text-xs py-2 px-4 transition-colors duration-300";
                 document.getElementById('announcement-text').innerText = "Healthcare Delivered • Licensed under Pharmacy & Poisons Board Guidelines.";
                 document.getElementById('cart-mode-label').innerText = "Retail (B2C)";
@@ -352,7 +421,7 @@
                         <div class="bg-slate-50 p-2 sm:p-3 rounded-xl border border-slate-100 mb-3">
                             <div class="text-[9px] sm:text-[10px] text-slate-400 uppercase font-bold tracking-wider">${currentMode === 'b2b' ? 'Wholesale Price Rate' : 'Retail Price'}</div>
                             <div class="flex items-baseline space-x-1">
-                                <span class="text-sm sm:text-lg font-black text-dawa-green">$${details.price.toFixed(2)}</span>
+                                <span class="text-sm sm:text-lg font-black text-dawa-green">KES ${details.price.toLocaleString()}</span>
                                 <span class="text-[10px] sm:text-xs text-slate-500">/ unit</span>
                             </div>
                             <div class="text-[10px] sm:text-[11px] text-slate-600 font-medium mt-1">MOQ: <strong class="text-slate-900">${details.moq}</strong></div>
@@ -401,7 +470,15 @@
             }
 
             renderCart();
-            toggleCartDrawer(true);
+
+            // Pulse badge indicator instead of opening drawer automatically
+            const badge = document.getElementById('cart-badge');
+            if (badge) {
+                badge.classList.add('scale-125', 'bg-emerald-400');
+                setTimeout(() => {
+                    badge.classList.remove('scale-125', 'bg-emerald-400');
+                }, 300);
+            }
         }
 
         function updateCartQty(index, change) {
@@ -434,7 +511,7 @@
                     div.innerHTML = `
                         <div class="pr-2">
                             <h4 class="text-xs font-bold text-dawa-navy">${item.name}</h4>
-                            <p class="text-[10px] text-slate-500">${item.unit} • $${item.price.toFixed(2)} each</p>
+                            <p class="text-[10px] text-slate-500">${item.unit} • KES ${item.price.toLocaleString()} each</p>
                             <span class="inline-block mt-1 px-1.5 py-0.5 bg-slate-200 text-slate-700 text-[9px] font-bold rounded uppercase">${item.mode}</span>
                         </div>
                         <div class="flex items-center space-x-2">
@@ -449,13 +526,13 @@
                 });
             }
 
-            const tax = subtotal * 0.08;
+            const tax = subtotal * 0.16;
             const total = subtotal + tax;
 
             cartBadge.innerText = totalItemCount;
-            document.getElementById('cart-subtotal').innerText = `$${subtotal.toFixed(2)}`;
-            document.getElementById('cart-tax').innerText = `$${tax.toFixed(2)}`;
-            document.getElementById('cart-total').innerText = `$${total.toFixed(2)}`;
+            document.getElementById('cart-subtotal').innerText = `KES ${subtotal.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('cart-tax').innerText = `KES ${tax.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            document.getElementById('cart-total').innerText = `KES ${total.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
         }
 
         function toggleCartDrawer(forceOpen = false) {
@@ -472,13 +549,22 @@
             renderProducts();
         }
 
+        function handleMobileSearch() {
+            searchQuery = document.getElementById('mobile-search-input').value;
+            renderProducts();
+        }
+
         function filterCategory(cat) {
             currentCategory = cat;
             document.querySelectorAll('.cat-filter-btn').forEach(btn => {
                 if (btn.innerText.toLowerCase().includes(cat.toLowerCase().substring(0, 5)) || (cat === 'all' && btn.innerText.includes('All'))) {
-                    btn.className = "cat-filter-btn text-left px-3 py-2 rounded-xl bg-dawa-navy text-white transition";
+                    btn.className = btn.classList.contains('flex-shrink-0') 
+                        ? "cat-filter-btn flex-shrink-0 px-3.5 py-2 rounded-xl bg-dawa-navy text-white transition"
+                        : "cat-filter-btn text-left px-3 py-2 rounded-xl bg-dawa-navy text-white transition";
                 } else {
-                    btn.className = "cat-filter-btn text-left px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition";
+                    btn.className = btn.classList.contains('flex-shrink-0')
+                        ? "cat-filter-btn flex-shrink-0 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-600 transition"
+                        : "cat-filter-btn text-left px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition";
                 }
             });
             renderProducts();
